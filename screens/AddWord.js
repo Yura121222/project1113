@@ -12,13 +12,23 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { playSound } from "../services/soundHandler";
 import { COLORS } from "../constants";
 
-function AddWord() {
-  const [text, setText] = useState();
+function AddWord({ navigation }) {
+  const [text, setText] = useState("");
   const [wordData, setWordData] = useState();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: wordData?.word ? `Adding word "${wordData.word}"` : "Adding word",
+    });
+  }, [navigation, wordData]);
 
   function onChangeText(text) {
     setWordData(undefined);
     setText(text);
+  }
+
+  function onAdd() {
+    navigation.navigate("AllWords", { wordData });
   }
 
   useEffect(() => {
